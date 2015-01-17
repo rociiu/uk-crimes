@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  crime_id: MyString
+  month: MyString
+  reported_by: MyString
+  lat: 1.5
+  lon: 1.5
+  location: MyString
+  lsoa_code: MyString
+  lsoa_name: MyString
+  crime_type: MyString
+  falls_within: MyString
+  last_outcome_category: MyString
+
+two:
+  crime_id: MyString
+  month: MyString
+  reported_by: MyString
+  lat: 1.5
+  lon: 1.5
+  location: MyString
+  lsoa_code: MyString
+  lsoa_name: MyString
+  crime_type: MyString
+  falls_within: MyString
+  last_outcome_category: MyString
