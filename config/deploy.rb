@@ -13,7 +13,7 @@ require 'mina/unicorn'
 
 set :domain, '45.56.82.156'
 set :deploy_to, '/home/roc/apps/uk-crimes/'
-set :repository, 'git://...'
+set :repository, 'https://github.com/rociiu/uk-crimes.git'
 set :branch, 'master'
 
 # For system-wide RVM install.
@@ -21,7 +21,7 @@ set :branch, 'master'
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
-set :shared_paths, ['config/database.yml', 'log']
+set :shared_paths, ['config/database.yml', 'config/secrets.yml', 'log']
 
 # Optional settings:
 set :user, 'roc'    # Username in the server to SSH to.
@@ -36,7 +36,7 @@ task :environment do
   # invoke :'rbenv:load'
 
   # For those using RVM, use this to load an RVM version@gemset.
-  invoke :'rvm:use[ruby-2.2.0-p0@default]'
+  invoke :'rvm:use[ruby-2.2.0-p0@uk-crimes]'
 end
 
 # Put any custom mkdir's in here for when `mina setup` is ran.
@@ -68,7 +68,7 @@ task :deploy => :environment do
     to :launch do
       queue "mkdir -p #{deploy_to}/#{current_path}/tmp/"
       # queue "touch #{deploy_to}/#{current_path}/tmp/restart.txt"
-      invoke :'sidekiq:restart'
+      # invoke :'sidekiq:restart'
       invoke :'unicorn:restart'
     end
   end
