@@ -28,6 +28,8 @@ set :user, 'roc'    # Username in the server to SSH to.
 #   set :port, '30000'     # SSH port number.
 #   set :forward_agent, true     # SSH forward_agent.
 
+set :unicorn_pid, "#{deploy_to}/shared/pids/unicorn.pid"
+
 # This task is the environment that is loaded for most commands, such as
 # `mina deploy` or `mina rake`.
 task :environment do
@@ -51,6 +53,13 @@ task :setup => :environment do
 
   queue! %[touch "#{deploy_to}/#{shared_path}/config/database.yml"]
   queue  %[echo "-----> Be sure to edit '#{deploy_to}/#{shared_path}/config/database.yml'."]
+  #
+  # sidekiq needs a place to store its pid file and log file
+  queue! %[mkdir -p "#{deploy_to}/shared/pids/"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/pids"]
+
+  queue! %[mkdir -p "#{deploy_to}/shared/sockets/"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/sockets"]
 end
 
 desc "Deploys the current version to the server."
