@@ -1,11 +1,10 @@
 require 'csv'
 
 namespace :import do
-  desc "import crimes from csv"
-  task :crimes => :environment do
-    csv_path = ENV['CSV']
+
+  def import_from_csv_file(csv_path)
     if File.exists?(csv_path)
-      puts "Start importing crimes."
+      puts "Start importing crimes from #{csv_path}."
       count = 0
       CSV.foreach(csv_path, headers: true) do |row|
         next if row['Crime ID'].blank?
@@ -27,6 +26,20 @@ namespace :import do
       end
       puts
       puts "Finished importing crimes."
+    end
+  end
+
+  desc "import crimes from csv"
+  task :crimes => :environment do
+    csv_path = ENV['CSV']
+    import_from_csv_file(csv_path)
+  end
+
+  desc "import crimes from directory"
+  task :crimes_directory => :environment do
+    directory_path = ENV['DIR']
+    Dir[File.join(directory_path, "**/*.csv")].each do |csv_path|
+      import_from_csv_file(csv_path)
     end
   end
 end
