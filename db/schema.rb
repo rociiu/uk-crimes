@@ -11,25 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150117114207) do
+ActiveRecord::Schema.define(version: 20150206032845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "crimes", force: :cascade do |t|
-    t.string   "crime_id"
-    t.string   "month"
-    t.string   "reported_by"
-    t.float    "lat"
-    t.float    "lon"
-    t.string   "location"
-    t.string   "lsoa_code"
-    t.string   "lsoa_name"
-    t.string   "crime_type"
-    t.string   "falls_within"
-    t.string   "last_outcome_category"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.string "crime_id"
+    t.string "month"
+    t.string "reported_by"
+    t.float  "lat"
+    t.float  "lon"
+    t.string "location"
+    t.string "lsoa_code"
+    t.string "lsoa_name"
+    t.string "crime_type"
+    t.string "falls_within"
+    t.string "last_outcome_category"
+    t.text   "context"
   end
 
 end
