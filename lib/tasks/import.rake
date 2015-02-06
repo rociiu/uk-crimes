@@ -39,5 +39,9 @@ namespace :import do
 
   desc "import categories"
   task :crime_categories => :environment do
+    res = HTTParty.get("http://data.police.uk/api/crime-categories")
+    res.each do |category_hash|
+      CrimeCategory.where(category_id: category_hash['id'], name: category_hash['name']).first_or_create
+    end
   end
 end
