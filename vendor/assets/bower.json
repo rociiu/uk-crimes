@@ -2,6 +2,7 @@
   "name": "dsl-generated dependencies",
   "dependencies": {
     "highcharts": "latest",
-    "underscore": "latest"
+    "underscore": "latest",
+    "d3": "latest"
   }
 }
