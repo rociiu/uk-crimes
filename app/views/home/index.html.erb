@@ -48,166 +48,168 @@
     </div>
   </div>
 </div>
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<%= content_for :javascripts do %>
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+  <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 
-<%= javascript_tag do %>
-  $(function(){
+  <%= javascript_tag do %>
+    $(function(){
 
-    var year = <%= params[:year] %>;
-    var line_data = <%= raw @line_data.to_json %>;
-    (new CrimesApp.LineChart({year: year, el: "#line-chart", data: line_data})).render()
+      var year = <%= params[:year] %>;
+      var line_data = <%= raw @line_data.to_json %>;
+      (new CrimesApp.LineChart({year: year, el: "#line-chart", data: line_data})).render()
 
-    var map = L.map('map').setView([51.769408, -2.834209], 5);
-    L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-            maxZoom: 18,
-            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-                    '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                    'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-            id: 'examples.map-i875mjb7'
-    }).addTo(map);
+      var map = L.map('map').setView([51.769408, -2.834209], 5);
+      L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+              maxZoom: 18,
+              attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+                      '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                      'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+              id: 'examples.map-i875mjb7'
+      }).addTo(map);
 
-    var circle = L.circle([51.769408, -2.834209], 50000, {
-      color: 'red',
-      fillColor: '#f03',
-      fillOpacity: 0.5
-    }).addTo(map);
-    circle.bindPopup("I am a circle.");
-    circle.on('mouseover', function(e){
-      this.openPopup();
-    });
-    circle.on('mouseout', function(e){
-      this.closePopup();
-    });
+      var circle = L.circle([51.769408, -2.834209], 50000, {
+        color: 'red',
+        fillColor: '#f03',
+        fillOpacity: 0.5
+      }).addTo(map);
+      circle.bindPopup("I am a circle.");
+      circle.on('mouseover', function(e){
+        this.openPopup();
+      });
+      circle.on('mouseout', function(e){
+        this.closePopup();
+      });
 
-    function getColor(d) {
-    return d > 1000 ? '#800026' :
-           d > 500  ? '#BD0026' :
-           d > 200  ? '#E31A1C' :
-           d > 100  ? '#FC4E2A' :
-           d > 50   ? '#FD8D3C' :
-           d > 20   ? '#FEB24C' :
-           d > 10   ? '#FED976' :
-                      '#FFEDA0';
-    }
-    var legend = L.control({position: 'bottomright'});
+      function getColor(d) {
+      return d > 1000 ? '#800026' :
+             d > 500  ? '#BD0026' :
+             d > 200  ? '#E31A1C' :
+             d > 100  ? '#FC4E2A' :
+             d > 50   ? '#FD8D3C' :
+             d > 20   ? '#FEB24C' :
+             d > 10   ? '#FED976' :
+                        '#FFEDA0';
+      }
+      var legend = L.control({position: 'bottomright'});
 
-    legend.onAdd = function (map) {
+      legend.onAdd = function (map) {
 
-        var div = L.DomUtil.create('div', 'info legend'),
-            grades = [0, 10, 20, 50, 100, 200, 500, 1000],
-            labels = [];
+          var div = L.DomUtil.create('div', 'info legend'),
+              grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+              labels = [];
 
-        for (var i = 0; i < grades.length; i++) {
-            div.innerHTML +=
-                '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-                grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
-        }
-        return div;
-    };
+          for (var i = 0; i < grades.length; i++) {
+              div.innerHTML +=
+                  '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+                  grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+          }
+          return div;
+      };
 
-    legend.addTo(map);
+      legend.addTo(map);
 
-    $('#bar-chart').highcharts({
-        chart: {
-            type: 'bar'
-        },
-        title: {
-            text: 'Historic World Population by Region'
-        },
-        subtitle: {
-            text: 'Source: Wikipedia.org'
-        },
-        xAxis: {
-            categories: ['Africa', 'America', 'Asia', 'Europe', 'Oceania'],
-            title: {
-                text: null
-            }
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: 'Population (millions)',
-                align: 'high'
-            },
-            labels: {
-                overflow: 'justify'
-            }
-        },
-        tooltip: {
-            valueSuffix: ' millions'
-        },
-        plotOptions: {
-            bar: {
-                dataLabels: {
-                    enabled: true
-                }
-            }
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'top',
-            x: -40,
-            y: 100,
-            floating: true,
-            borderWidth: 1,
-            backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
-            shadow: true
-        },
-        credits: {
-            enabled: false
-        },
-        series: [{
-            name: 'Year 1800',
-            data: [107, 31, 635, 203, 2]
-        }, {
-            name: 'Year 1900',
-            data: [133, 156, 947, 408, 6]
-        }, {
-            name: 'Year 2008',
-            data: [973, 914, 4054, 732, 34]
-        }]
-    });
-    $('#pie-chart').highcharts({
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false
-            },
-            title: {
-                text: 'Browser market shares at a specific website, 2014'
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: false
-                    },
-                    showInLegend: true
-                }
-            },
-            series: [{
-                type: 'pie',
-                name: 'Browser share',
-                data: [
-                    ['Firefox',   45.0],
-                    ['IE',       26.8],
-                    {
-                        name: 'Chrome',
-                        y: 12.8,
-                        sliced: true,
-                        selected: true
-                    },
-                    ['Safari',    8.5],
-                    ['Opera',     6.2],
-                    ['Others',   0.7]
-                ]
-            }]
-        });
-  })
+      $('#bar-chart').highcharts({
+          chart: {
+              type: 'bar'
+          },
+          title: {
+              text: 'Historic World Population by Region'
+          },
+          subtitle: {
+              text: 'Source: Wikipedia.org'
+          },
+          xAxis: {
+              categories: ['Africa', 'America', 'Asia', 'Europe', 'Oceania'],
+              title: {
+                  text: null
+              }
+          },
+          yAxis: {
+              min: 0,
+              title: {
+                  text: 'Population (millions)',
+                  align: 'high'
+              },
+              labels: {
+                  overflow: 'justify'
+              }
+          },
+          tooltip: {
+              valueSuffix: ' millions'
+          },
+          plotOptions: {
+              bar: {
+                  dataLabels: {
+                      enabled: true
+                  }
+              }
+          },
+          legend: {
+              layout: 'vertical',
+              align: 'right',
+              verticalAlign: 'top',
+              x: -40,
+              y: 100,
+              floating: true,
+              borderWidth: 1,
+              backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+              shadow: true
+          },
+          credits: {
+              enabled: false
+          },
+          series: [{
+              name: 'Year 1800',
+              data: [107, 31, 635, 203, 2]
+          }, {
+              name: 'Year 1900',
+              data: [133, 156, 947, 408, 6]
+          }, {
+              name: 'Year 2008',
+              data: [973, 914, 4054, 732, 34]
+          }]
+      });
+      $('#pie-chart').highcharts({
+              chart: {
+                  plotBackgroundColor: null,
+                  plotBorderWidth: null,
+                  plotShadow: false
+              },
+              title: {
+                  text: 'Browser market shares at a specific website, 2014'
+              },
+              tooltip: {
+                  pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+              },
+              plotOptions: {
+                  pie: {
+                      allowPointSelect: true,
+                      cursor: 'pointer',
+                      dataLabels: {
+                          enabled: false
+                      },
+                      showInLegend: true
+                  }
+              },
+              series: [{
+                  type: 'pie',
+                  name: 'Browser share',
+                  data: [
+                      ['Firefox',   45.0],
+                      ['IE',       26.8],
+                      {
+                          name: 'Chrome',
+                          y: 12.8,
+                          sliced: true,
+                          selected: true
+                      },
+                      ['Safari',    8.5],
+                      ['Opera',     6.2],
+                      ['Others',   0.7]
+                  ]
+              }]
+          });
+    })
+  <% end %>
 <% end %>
