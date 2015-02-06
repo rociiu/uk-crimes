@@ -1,4 +1,5 @@
 require 'csv'
+require 'httparty'
 
 namespace :import do
 
@@ -26,5 +27,17 @@ namespace :import do
     Dir[File.join(directory_path, "**/*.csv")].each do |csv_path|
       import_from_csv_file(csv_path)
     end
+  end
+
+  desc "import forces"
+  task :forces => :environment do
+    res = HTTParty.get("http://data.police.uk/api/forces")
+    res.each do |force_hash|
+      Force.where(force_id: force_hash['id'], name: force_hash['name']).first_or_create
+    end
+  end
+
+  desc "import categories"
+  task :crime_categories => :environment do
   end
 end
