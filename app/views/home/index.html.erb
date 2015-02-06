@@ -10,26 +10,15 @@
         <form action="">
           <div class="form-group">
             <label for="year">Year</label>
-            <select id="year" name="year" class="form-control">
-              <option value="2013">2013</option>
-              <option value="2014">2014</option>
-            </select>
+            <%= select_tag :year, options_for_select(@years.map{|y| [y, y]}, params[:year]), class: 'form-control' %>
           </div>
           <div class="form-group">
             <label for="force">Force</label>
-            <select id="force" name="force" class="form-control">
-              <option value="avon-and-somerset">Avon and Somerset Constabulary</option>
-              <option value="bedfordshire">Bedfordshire Police</option>
-              <option value="cambridgeshire">Cambridgeshire Constabulary</option>
-            </select>
+            <%= select_tag :force, options_from_collection_for_select(@forces, 'name', 'name', params[:force]), class: 'form-control' %>
           </div>
           <div class="form-group">
             <label for="category">Category</label>
-            <select id="category" name="category" class="form-control">
-              <option value="all-crime">All crime and ASB</option>
-              <option value="burglary">Burglary</option>
-              <option value="anti-social-behaviour">Anti-social behaviour</option>
-            </select>
+            <%= select_tag :crime_category, options_from_collection_for_select(@crime_categories, 'name', 'name', params[:crime_category]), class: 'form-control' %>
           </div>
           <button type="submit" class="btn btn-default">Submit</button>
         </form>
