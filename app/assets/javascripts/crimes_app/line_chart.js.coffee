@@ -3,11 +3,12 @@ class CrimesApp.LineChart
   constructor: (opts={})->
     @el   = opts.el
     @data = opts.data
+    @year = opts.year
 
   render: ->
     $(@el).highcharts
       title:
-        text: '2014 Crimes'
+        text: "#{@year} Crimes"
         x: -20
       xAxis:
         categories: _.map(@data, (d)->d[0])

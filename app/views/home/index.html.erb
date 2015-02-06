@@ -54,8 +54,9 @@
 <%= javascript_tag do %>
   $(function(){
 
+    var year = <%= params[:year] %>;
     var line_data = <%= raw @line_data.to_json %>;
-    (new CrimesApp.LineChart({el: "#line-chart", data: line_data})).render()
+    (new CrimesApp.LineChart({year: year, el: "#line-chart", data: line_data})).render()
 
     var map = L.map('map').setView([51.769408, -2.834209], 5);
     L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
