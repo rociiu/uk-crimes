@@ -14,4 +14,6 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require highcharts/highcharts
-//= require_tree .
+//= require underscore-min
+//= require crimes_app
+//= require_directory ./crimes_app/
