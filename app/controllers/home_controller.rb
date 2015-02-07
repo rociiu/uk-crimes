@@ -21,7 +21,9 @@ class HomeController < ApplicationController
   end
 
   def load_line_chart_data(crimes)
-    @line_data = crimes.select("split_part(month, '-', 2) as m, count(*) as count").group("month").order("m").map {|c| [c.m, c.count] }
+    @line_data = crimes.select("split_part(month, '-', 2) as m, count(*) as count").group("month").order("m").map do |c|
+      [Date::ABBR_MONTHNAMES[c.m.to_i], c.count]
+    end
   end
 
   def load_bubble_chart_data(crimes)
