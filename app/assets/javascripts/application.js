@@ -15,6 +15,7 @@
 //= require twitter/bootstrap
 //= require highcharts/highcharts
 //= require leaflet
+//= require d3
 //= require underscore
 //= require crimes_app
 //= require crimes_app/bubble_map_chart

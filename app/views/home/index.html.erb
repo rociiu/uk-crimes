@@ -56,7 +56,8 @@
       var line_data = <%= raw @line_data.to_json %>;
       (new CrimesApp.LineChart({year: year, el: "#line-chart", data: line_data})).render()
 
-      var bubble = new CrimesApp.BubbleMapChart({el: 'map'})
+      var bubble_data = <%= raw @bubble_data.to_json %>
+      var bubble = new CrimesApp.BubbleMapChart({el: 'map', data: bubble_data})
       bubble.render()
 
       $('#bar-chart').highcharts({

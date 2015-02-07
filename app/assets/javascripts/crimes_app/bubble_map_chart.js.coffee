@@ -2,13 +2,14 @@ class CrimesApp.BubbleMapChart
 
   constructor: (opts)->
     @el = opts.el
+    @data = opts.data
 
   render: ->
-    map = L.map(@el).setView([51.769408, -2.834209], 5)
+    map = L.map(@el).setView([52.810871, -4.563929], 6)
 
     @renderTileLayer(map)
     @renderBubbles(map)
-    @renderLegend(map)
+    # @renderLegend(map)
 
   renderTileLayer: (map)->
     L.tileLayer(
@@ -21,13 +22,19 @@ class CrimesApp.BubbleMapChart
     }).addTo(map)
 
   renderBubbles: (map)->
-    circle = L.circle([51.769408, -2.834209], 50000, {
+    counts = _.map(@data, (d)->d.count)
+    @scale = d3.scale.linear().domain([d3.min(counts), d3.max(counts)]).range([0, 100000])
+    for d in @data
+      @renderBubble(map, d, @scale(d.count))
+
+  renderBubble: (map, d, radius)->
+    circle = L.circle([d.lat, d.lon], radius, {
       color: 'red',
       fillColor: '#f03',
       fillOpacity: 0.5
     }).addTo(map)
 
-    circle.bindPopup("I am a circle.")
+    circle.bindPopup("#{d.force}: #{d.count}")
     circle.on('mouseover', (e)->
       @openPopup()
     )
