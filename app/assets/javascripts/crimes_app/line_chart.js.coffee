@@ -13,6 +13,7 @@ class CrimesApp.LineChart
       xAxis:
         categories: _.map(@data, (d)->d[0])
       yAxis:
+        min: 0
         title:
           text: ''
         plotLines: [
