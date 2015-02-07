@@ -1,5 +1,6 @@
 require 'csv'
 require 'httparty'
+require 'geocoder'
 
 namespace :import do
 
@@ -42,6 +43,22 @@ namespace :import do
     res = HTTParty.get("http://data.police.uk/api/crime-categories")
     res.each do |category_hash|
       CrimeCategory.where(category_id: category_hash['id'], name: category_hash['name']).first_or_create
+    end
+  end
+
+  desc "import forces lat/lon"
+  task :forces_lat_lon => :environment do
+    Force.where(lat: nil).each do |force|
+      results = Geocoder.search(force.name)
+      if result = results.first
+        location = result.data['geometry']['location']
+        puts force.name
+        puts location.inspect
+        puts '----'
+        if location['lat'].present? && location['lng'].present?
+          force.update(lat: location['lat'], lon: location['lng'])
+        end
+      end
     end
   end
 end

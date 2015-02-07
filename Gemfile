@@ -18,6 +18,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem "bower-rails", "~> 0.9.2"
 
 gem 'httparty', require: false
+gem 'geocoder', require: false
 
 gem 'unicorn'
 gem 'mina'
