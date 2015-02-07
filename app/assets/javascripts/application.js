@@ -20,3 +20,4 @@
 //= require crimes_app
 //= require crimes_app/bubble_map_chart
 //= require crimes_app/line_chart
+//= require crimes_app/bar_chart

@@ -4,6 +4,8 @@ class HomeController < ApplicationController
     load_form_select_data
     load_line_chart_data(crimes)
     load_bubble_chart_data(crimes)
+    load_top_bar_chart_data
+    load_pie_chart_data
   end
 
   private
@@ -27,5 +29,13 @@ class HomeController < ApplicationController
       force = Force.find_by(name: c.reported_by)
       { force: c.reported_by, count: c.count, lat: force.try(:lat), lon: force.try(:lon) }
     }
+  end
+
+  def load_top_bar_chart_data
+    @bubble_data
+  end
+
+  def load_pie_chart_data
+    @bubble_data
   end
 end
