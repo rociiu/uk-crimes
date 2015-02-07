@@ -6,3 +6,4 @@
 asset "highcharts"
 asset "underscore"
 asset "d3"
+asset "leaflet"

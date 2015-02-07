@@ -3,6 +3,7 @@
   "dependencies": {
     "highcharts": "latest",
     "underscore": "latest",
-    "d3": "latest"
+    "d3": "latest",
+    "leaflet": "latest"
   }
 }

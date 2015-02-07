@@ -14,6 +14,8 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require highcharts/highcharts
+//= require leaflet
 //= require underscore
 //= require crimes_app
-//= require_directory ./crimes_app/
+//= require crimes_app/bubble_map_chart
+//= require crimes_app/line_chart
